@@ -2,3 +2,4 @@ kasm.o
 kernel
 kernel.o
 vga.o
+*.o
