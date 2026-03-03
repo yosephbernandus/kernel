@@ -3,6 +3,7 @@
 
 static struct idt_entry idt[IDT_ENTRIES];
 static struct idt_descriptor idt_desc;
+extern void keyboard_isr(void);
 
 void idt_set_entry(int index, unsigned int handler, unsigned short selector,
                    unsigned char type_attr) {
@@ -21,6 +22,8 @@ void idt_init(void) {
   for (i = 0; i < IDT_ENTRIES; i++) {
     idt_set_entry(i, (unsigned int)isr_default, 0x08, 0x8E);
   }
+
+  idt_set_entry(33, (unsigned int)keyboard_isr, 0x08, 0x8E);
 
   idt_desc.size = sizeof(idt) - 1;
   idt_desc.offset = (unsigned int)&idt;

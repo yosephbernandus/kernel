@@ -12,7 +12,10 @@ start:
   cli
   mov esp, stack_space
   call kmain
+
+.hang:
   hlt
+  jmp .hang
 
 section .bss
 resb 8192

@@ -23,6 +23,20 @@ void vga_putchar(char c) {
     return;
   }
 
+  if (c == '\b') {
+    if (col > 0) {
+      col--;
+    } else if (row > 0) {
+      row--;
+      col = VGA_COLS - 1;
+    }
+
+    unsigned int offset = (row * VGA_COLS + col) * 2;
+    vidptr[offset] = ' ';
+    vidptr[offset + 1] = color;
+    return;
+  }
+
   unsigned int offset = (row * VGA_COLS + col) * 2;
   vidptr[offset] = c;
   vidptr[offset + 1] = color;
