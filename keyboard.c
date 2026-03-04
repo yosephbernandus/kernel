@@ -1,6 +1,6 @@
 #include "keyboard.h"
 #include "port.h"
-#include "vga.h"
+#include "shell.h"
 
 // US Keyboard scan code -> ASCII
 static const char scancode_to_ascii[128] = {
@@ -22,7 +22,7 @@ void keyboard_handler(void) {
 
   char c = scancode_to_ascii[scancode];
   if (c != 0) {
-    vga_putchar(c);
+    shell_handle_key(c);
   }
 
   // Send End of Interrupt (EOI) to master PIC

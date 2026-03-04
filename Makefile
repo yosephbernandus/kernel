@@ -6,7 +6,7 @@ ASMFLAGS = -f elf32
 CFLAGS   = -m32 -c -nostdlib -nostdinc -fno-builtin -fno-stack-protector
 LDFLAGS  = -m elf_i386 -T link.ld
 
-OBJ = kasm.o kernel.o vga.o gdt.o gdt_asm.o idt.o idt_asm.o pic.o keyboard.o keyboard_asm.o
+OBJ = kasm.o kernel.o vga.o gdt.o gdt_asm.o idt.o idt_asm.o pic.o keyboard.o keyboard_asm.o shell.o
 
 all: kernel
 
@@ -42,6 +42,9 @@ keyboard.o: keyboard.c
 
 keyboard_asm.o: keyboard_asm.asm
 	$(ASM) $(ASMFLAGS) $< -o $@
+
+shell.o: shell.c
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
 	rm -f $(OBJ) kernel

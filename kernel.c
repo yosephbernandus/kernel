@@ -1,6 +1,7 @@
 #include "gdt.h"
 #include "idt.h"
 #include "pic.h"
+#include "shell.h"
 #include "vga.h"
 
 void kmain(void) {
@@ -10,6 +11,7 @@ void kmain(void) {
   pic_init();
   __asm__ volatile("sti"); // enable interrupts AFTER PIC is ready
   vga_print("Hello from equil kernel\n");
+  shell_init();
 
   // make the kernel alive halt, wake on interrupt, repeat
   while (1) {
