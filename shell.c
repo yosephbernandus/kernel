@@ -10,6 +10,29 @@ static void shell_execute(void) {
   // TODO
 }
 
+static int kstrcmp(const char *a, const char *b) {
+  while (*a && *b && *a == *b) {
+    a++;
+    b++;
+  }
+  return *a - *b;
+}
+
+static int kstrncmp(const char *a, const char *b, unsigned int n) {
+  while (n-- && *a && *b && *a == *b) {
+    a++;
+    b++;
+  }
+  return n == (unsigned int)-1 ? 0 : *a - *b;
+}
+
+static unsigned int kstrlen(const char *s) {
+  unsigned int len = 0;
+  while (s[len])
+    len++;
+  return len;
+}
+
 void shell_init(void) { shell_prompt(); }
 
 void shell_handle_key(char c) {
