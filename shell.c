@@ -6,10 +6,6 @@ static unsigned int buf_len = 0;
 
 static void shell_prompt(void) { vga_print("> "); }
 
-static void shell_execute(void) {
-  // TODO
-}
-
 static int kstrcmp(const char *a, const char *b) {
   while (*a && *b && *a == *b) {
     a++;
@@ -31,6 +27,34 @@ static unsigned int kstrlen(const char *s) {
   while (s[len])
     len++;
   return len;
+}
+
+static void shell_execute(void) {
+  if (buf_len == 0)
+    return;
+
+  if (kstrcmp(buffer, "clear") == 0) {
+    vga_clear();
+    return;
+  }
+
+  if (kstrcmp(buffer, "help") == 0) {
+    vga_print("Commands:\n");
+    vga_print("  clear  - clear the screen\n");
+    vga_print("  help   - show this message\n");
+    vga_print("  echo   - print text\n");
+    return;
+  }
+
+  if (kstrncmp(buffer, "echo ", 5) == 0) {
+    vga_print(buffer + 5);
+    vga_putchar('\n');
+    return;
+  }
+
+  vga_print("Unknown command: ");
+  vga_print(buffer);
+  vga_putchar('\n');
 }
 
 void shell_init(void) { shell_prompt(); }
