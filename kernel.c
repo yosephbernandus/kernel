@@ -2,6 +2,7 @@
 #include "idt.h"
 #include "pic.h"
 #include "shell.h"
+#include "timer.h"
 #include "vga.h"
 
 void kmain(void) {
@@ -9,6 +10,7 @@ void kmain(void) {
   gdt_init();
   idt_init();
   pic_init();
+  timer_init();
   __asm__ volatile("sti"); // enable interrupts AFTER PIC is ready
   vga_print("Hello from equil kernel\n");
   shell_init();

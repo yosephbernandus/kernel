@@ -19,6 +19,8 @@ void pic_init(void) {
   outb(0xA1, 0x01);
 
   // Mask all IRQs except IRQ 1 (keyboard)
-  outb(0x21, 0xFD); // 1111 1101 - only IRQ 1 enabled
+  // Was: 0xFD (1111 1101) — only keyboard
+  // Now: 0xFC (1111 1100) — keyboard + timer
+  outb(0x21, 0xFC); // 1111 1101 - only IRQ 1 enabled
   outb(0xA1, 0xFF); // all slave IRQs disabled
 }
