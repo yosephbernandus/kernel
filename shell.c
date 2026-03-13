@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "timer.h"
 #include "vga.h"
 
 static char buffer[SHELL_BUFFER_SIZE];
@@ -29,9 +30,35 @@ static unsigned int kstrlen(const char *s) {
   return len;
 }
 
+static void print_number(unsigned int n) {
+  char buf[10];
+  int i = 0;
+
+  if (n == 0) {
+    vga_putchar('0');
+    return;
+  }
+
+  while (n > 0) {
+    buf[i++] = '0' + (n % 10);
+    n /= 10;
+  }
+
+  while (i > 0) {
+    vga_putchar(buf[--i]);
+  }
+}
+
 static void shell_execute(void) {
   if (buf_len == 0)
     return;
+
+  if (kstrcmp(buffer, "uptime") == 0) {
+    unsigned int secs = timer_get_ticks() / 100;
+    print_number(secs);
+    vga_print(" seconds\n");
+    return;
+  }
 
   if (kstrcmp(buffer, "clear") == 0) {
     vga_clear();
