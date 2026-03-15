@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "kprintf.h"
 #include "timer.h"
 #include "vga.h"
 
@@ -54,9 +55,7 @@ static void shell_execute(void) {
     return;
 
   if (kstrcmp(buffer, "uptime") == 0) {
-    unsigned int secs = timer_get_ticks() / 100;
-    print_number(secs);
-    vga_print(" seconds\n");
+    kprintf("%d seconds\n", timer_get_ticks() / 100);
     return;
   }
 
