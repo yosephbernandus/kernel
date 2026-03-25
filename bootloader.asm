@@ -11,6 +11,7 @@ extern kmain
 start:
   cli
   mov esp, stack_space
+  push ebx        ; push multiboot info pointer as argument
   call kmain
 
 .hang:
